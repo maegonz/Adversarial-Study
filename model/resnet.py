@@ -41,4 +41,83 @@ class ResNet(nn.Module):
         y = self.avgpool(y)
         y = y.view(y.size(0), -1)
         y = self.fc(y)
-        return y        
+        return y
+    
+
+# class ResNet18(nn.Module):
+#     def __init__(self):
+#         super(ResNet18, self).__init__()
+        
+#         self.conv1 = nn.Conv2d(
+#             in_channels = 3, out_channels = 64,
+#             kernel_size = 3, padding = 1,
+#             stride = 1, bias = False
+#         )
+#         self.bn1 = nn.BatchNorm2d(num_features = 64)
+        
+#         self.resblock1 = ResNet_Block(
+#             num_inp_channels = 64, num_channels = 64,
+#             stride = 1, dropout = 0.2,
+#             use_1x1_conv = False
+#         )
+        
+#         self.resblock2 = ResNet_Block(
+#             num_inp_channels = 64, num_channels = 64,
+#             stride = 1, dropout = 0.2,
+#             use_1x1_conv = False
+#         )
+        
+#         # Downsample-
+#         self.resblock3 = ResNet_Block(
+#             num_inp_channels = 64, num_channels = 128,
+#             stride = 2, dropout = 0.2,
+#             use_1x1_conv = True
+#         )
+        
+#         self.resblock4 = ResNet_Block(
+#             num_inp_channels = 128, num_channels = 128,
+#             stride = 1, dropout = 0.2,
+#             use_1x1_conv = False
+#         )
+
+#         # Downsample-
+#         self.resblock5 = ResNet_Block(
+#             num_inp_channels = 128, num_channels = 256,
+#             stride = 2, dropout = 0.2,
+#             use_1x1_conv = True
+#         )
+
+#         self.resblock6 = ResNet_Block(
+#             num_inp_channels = 256, num_channels = 256,
+#             stride = 1, dropout = 0.2,
+#             use_1x1_conv = False
+#         )
+
+#         # Downsample-
+#         self.resblock7 = ResNet_Block(
+#             num_inp_channels = 256, num_channels = 512,
+#             stride = 2, dropout = 0.2,
+#             use_1x1_conv = True
+#         )
+
+#         self.resblock8 = ResNet_Block(
+#             num_inp_channels = 512, num_channels = 512,
+#             stride = 1, dropout = 0.2,
+#             use_1x1_conv = False
+#         )
+        
+#         self.avg_pool = nn.AvgPool2d(kernel_size = 3, stride = 2)
+        
+    
+#     def forward(self, x):
+#         x = F.relu(self.bn1(self.conv1(x)))
+#         x = self.resblock1(x)
+#         x = self.resblock2(x)
+#         x = self.resblock3(x)
+#         x = self.resblock4(x)
+#         x = self.resblock5(x)
+#         x = self.resblock6(x)
+#         x = self.resblock7(x)
+#         x = self.resblock8(x)
+#         x = self.avg_pool(x).squeeze()
+#         return x
