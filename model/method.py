@@ -111,7 +111,6 @@ def evaluating(model: nn.Module,
 
             _, pred = torch.max(outputs, 1)
             accuracy += (pred == labels).sum().item()
-            total += labels.size(0)
 
     avg_loss = total_loss / len(data_set)
     avg_accuracy = 100 * (accuracy / len(data_set))
