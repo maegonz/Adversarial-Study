@@ -17,7 +17,7 @@ class ResNet(nn.Module):
         self.block4 = self._make_layer(ResBlock, 512, 2, stride=2)
         
         self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
-        self.fc = nn.Linear(512, n_class)
+        self.dense = nn.Linear(512, n_class)
 
     def _make_layer(self, block, out_channels, num_blocks, stride):
         strides = [stride] + [1] * (num_blocks - 1)
@@ -40,7 +40,7 @@ class ResNet(nn.Module):
         
         y = self.avgpool(y)
         y = y.view(y.size(0), -1)
-        y = self.fc(y)
+        y = self.dense(y)
         return y
     
 
