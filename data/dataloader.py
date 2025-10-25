@@ -4,33 +4,42 @@ import torch
 import torchvision as tv
 import torchvision.transforms as transforms
 
+from torch.utils.data import DataLoader, random_split
+from typing import Optional
+
 
 def dataloader(name: str,
                batch_size: int,
-               shuffle: bool=True):
+               shuffle: bool=True,
+               val_split: Optional[float] = None):
   """
   Dataloader for the specified dataset.
 
   Params
   -------
   name: str
-    Name of the dataset.
+    Name of the dataset between 'CIFAR10', 'MNIST' and 'CIFAR100'.
   batch_size: int
     Batch size for the dataloader.
   shuffle: bool
     Whether to shuffle the dataset, defaults to True.
+  val_split: float
+    Fraction of the trainig set use as validation. Defaults to None.
 
   Returns
   -------
-  train_loader: torch.utils.data.DataLoader
+  train_loader: DataLoader
     Dataloader for the training set.
-  test_loader: torch.utils.data.DataLoader
+  test_loader: DataLoader
     Dataloader for the test set.
+  valid_loader: DataLoader
+    DataLoader for the validation set.
   """
 
   # Image transformation
   transform = transforms.Compose([
       transforms.ToTensor(),
+      transforms.Normalize((0.5,), (0.5,)) if name == 'MNIST' else 
       transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
   ])
 
@@ -48,20 +57,36 @@ def dataloader(name: str,
     raise ValueError("Invalid dataset name. Choose between 'MNIST', 'CIFAR10' or 'CIFAR100'.")
 
   # Create DataLoaders
-  train_loader = torch.utils.data.DataLoader(train_set, batch_size=batch_size, shuffle=shuffle)
-  test_loader = torch.utils.data.DataLoader(test_set, batch_size=batch_size, shuffle=False)
+  if val_split is not None:
+    # Split trainig data into train and validation
+    total_size = len(train_set)
+    valid_size = int(val_split * total_size)
+    train_size = total_size - valid_size
 
-  return train_loader, test_loader
+    train_set, valid_set = random_split(train_set, [train_size, valid_size])
+    
+    train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=shuffle)
+    valid_loader = DataLoader(valid_set, batch_size=batch_size, shuffle=False)
+    test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=False)
+    
+    return train_loader, test_loader, valid_loader
+  
+  else:
+    train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=shuffle)
+    test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=False)
+
+    return train_loader, test_loader
 
 
-def get_tensors(dataloader: torch.utils.data.DataLoader,
+
+def get_tensors(dataloader: DataLoader,
                 array: bool=False):
   """
   Get tensors from dataloader.
 
   Params
   -------
-  dataloader: torch.utils.data.DataLoader
+  dataloader: DataLoader
     Dataloader for the dataset.
   array: bool
     Whether to return tensors as numpy arrays or torch tensor, defaults to False.
