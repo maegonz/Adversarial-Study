@@ -14,6 +14,28 @@ def training(model,
          val_set: DataLoader=None):
     """
     Train a PyTorch model
+
+    Params
+    -------
+    model: nn.Module
+        The model to be trained.
+    train_set: DataLoader
+        Data to train the model on.
+    criterion: nn.Module
+        Loss function used for optimization.
+    optimizer: torch.optim.Optimizer
+        Optimizer used to update model parameters.
+    device: torch.device or str
+        Device on which to train the model (e.g., 'cpu' or 'cuda').
+    epochs: int
+        Number of epochs to train for.
+    val_set: DataLoader, optional
+        Data to validate the model on. Defaults to None.
+
+    Returns
+    -------
+    None
+        Prints training and validation loss per epoch.
     """
 
     model = model.to(device)
@@ -44,8 +66,8 @@ def training(model,
         print(f"Epoch {epoch+1}/{epochs} - Train Loss: {epoch_loss:.4f}")
 
         if val_set is not None:
-            val_loss = evaluating(model, val_set, criterion, device)
-            print(f"Val Loss:   {val_loss:.4f}")
+            val_loss, val_accuracy  = evaluating(model, val_set, criterion, device)
+            print(f"Val Loss:   {val_loss:.4f} | Val Accuracy:   {val_accuracy:.4f}")
 
 def evaluating(model, 
                data_set: DataLoader,
@@ -59,17 +81,17 @@ def evaluating(model,
     model: nn.Module 
         Model to be evaluated.
     data_set: DataLoader
-        Dataset or DataLoader to evaluate the model on.
-    criterion : nn.Module
+        Dataset to evaluate the model on.
+    criterion: nn.Module
         Loss function used for evaluation.
-    device : torch.device or str
-        Device to perform evaluation on (e.g., 'cpu' or 'cuda').
+    device: torch.device or str
+        Device to perform evaluation on. ('cpu' or 'cuda')
 
     Returns
     -------
-    avg_loss : float
+    avg_loss: float
         Average loss over the dataset.
-    avg_accuracy : float
+    avg_accuracy: float
         Average accuracy (in percentage) over the dataset.
     """
 
