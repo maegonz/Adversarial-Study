@@ -1,17 +1,18 @@
 import torch
 import torch.nn as nn
 
+from torch.optim import Optimizer
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 
-def training(model,
-         train_set: DataLoader,
-         criterion,
-         optimizer,
-         device,
-         epochs,
-         val_set: DataLoader=None):
+def training(model: nn.Module,
+            train_set: DataLoader,
+            criterion: nn.Module,
+            optimizer: Optimizer,
+            device: torch.device,
+            epochs: int,
+            val_set: DataLoader=None):
     """
     Train a PyTorch model
 
@@ -69,10 +70,11 @@ def training(model,
             val_loss, val_accuracy  = evaluating(model, val_set, criterion, device)
             print(f"Val Loss:   {val_loss:.4f} | Val Accuracy:   {val_accuracy:.4f}")
 
-def evaluating(model, 
+
+def evaluating(model: nn.Module, 
                data_set: DataLoader,
-               criterion,
-               device):
+               criterion: nn.Module,
+               device: torch.device):
     """
     Evaluate the model on a dataset.
 
@@ -99,7 +101,6 @@ def evaluating(model,
 
     total_loss = 0
     accuracy = 0
-    total = 0
 
     with torch.no_grad():
         for inputs, labels in data_set:
@@ -112,7 +113,7 @@ def evaluating(model,
             accuracy += (pred == labels).sum().item()
             total += labels.size(0)
 
-    avg_loss = total_loss / total
-    avg_accuracy = 100 * (accuracy / total)
+    avg_loss = total_loss / len(data_set)
+    avg_accuracy = 100 * (accuracy / len(data_set))
 
     return avg_loss, avg_accuracy
