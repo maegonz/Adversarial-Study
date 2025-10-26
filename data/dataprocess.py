@@ -23,9 +23,10 @@ def separation(dataset: DataLoader,
 
     x = []
 
-    for image, label in dataset:
-        if label == id_class:
-            x.append(image)
+    for batch in dataset:
+        mask = batch[1] == id_class
+        images = batch[0][mask]
+        x.append(images)
 
     x = np.concatenate(x, axis=0)
 
