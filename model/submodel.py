@@ -22,7 +22,7 @@ def split(model: nn.Module,
         Layers after the split point.
     """
 
-    layers = list(model.named_children())
+    layers = list(model.children())
 
     if id == None:
         id = len(layers)-1
