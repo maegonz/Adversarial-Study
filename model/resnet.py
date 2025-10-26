@@ -39,7 +39,7 @@ class ResNet(nn.Module):
         y = self.block4(y)
         
         y = self.avgpool(y)
-        y = y.view(y.size(0), -1)
+        y = y.view(y.size(0), -1)  # Flatten layer
         y = self.dense(y)
         return y
     
