@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import torch
 from torch.utils.data import DataLoader
+from craft.craft_torch import torch_to_numpy
 
 def separation(dataset: DataLoader,
                id_class: int,
@@ -44,3 +45,24 @@ def separation(dataset: DataLoader,
             x = np.array(x)
 
     return x
+
+
+def preparation(img):
+    """
+    Transpose and returned a colored image in HWC format.
+
+    Params
+    -------
+    img : torch.tensor or np.ndarray
+        The given image.
+    Return
+    -------
+    img : torch.tensor or np.ndarray
+        The transposed and colored image.
+    """
+    img = img * 0.5 + 0.5
+    if isinstance(img, torch.tensor):
+        img = img.permute(1, 2, 0)
+    else:   
+        img = np.transpose(img, (1, 2, 0))
+    return img
