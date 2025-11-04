@@ -16,7 +16,6 @@ The project aims to explore how neural architectures react to adversarial pertur
 
 All experiments are conducted on the CIFAR10 dataset and detailed results will be added progressively as experimentation progresses.
 
----
 
 ## Repo Structure
 
@@ -48,8 +47,6 @@ python train.py --config configs/resnet_baseline.yaml
 If you use or refer to this repository, please cite:
 
 > **MANUEL** (2025). *Understanding and Detecting Adversarial Behavior in Neural Networks*. GitHub repository: [[https://github.com/](https://github.com/maegonz/Adversarial-Study)]
-
----
 
 
 ## License
