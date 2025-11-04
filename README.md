@@ -104,7 +104,7 @@ If you use or refer to this repository, please cite:
 
 ## License
 
-This repository is licensed under the **MIT License** (see [LICENSE](./LICENSE) for details).
+This repository is licensed under the **GNU License** (see [LICENSE](./LICENSE) for details).
 
 ---
 
