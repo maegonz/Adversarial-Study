@@ -76,14 +76,14 @@ python train.py --config configs/resnet_baseline.yaml
 ``` -->
 
 ---
-
+<!-- 
 ## Citation
 
 If you use or refer to this repository, please cite:
 
 > **Your Name.** (2025). *Understanding and Detecting Adversarial Behavior in Neural Networks*. GitHub repository: [[https://github.com/](https://github.com/)maegonz/Adversarial-Study]
 
----
+--- -->
 
 ## References
 
