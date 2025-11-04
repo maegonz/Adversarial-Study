@@ -3,7 +3,6 @@
 This repository contains the code and experimental framework for an ongoing research project that investigates **adversarial behavior in neural networks**.
 The project aims to explore how neural architectures react to adversarial perturbations, to better understand the mechanisms behind their vulnerabilities, and to investigate whether such perturbations can be **detected or explained** effectively. This work is based on several paper and open-source framework referenced at the end of this file.
 
----
 
 ## Quick Overview
 
