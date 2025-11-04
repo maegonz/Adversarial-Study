@@ -55,10 +55,3 @@ If you use or refer to this repository, please cite:
 ## License
 
 This repository is licensed under the **GNU License** (see [LICENSE](./LICENSE) for details).
-
----
-
-## Author
-
-This work builds upon foundational research in adversarial robustness, explainable AI, and neural network interpretability.
-Special thanks to the open-source and academic communities whose contributions enable this research.
