@@ -1,9 +1,7 @@
 import numpy as np
-import pandas as pd
 import torch
 import torchvision as tv
 import torchvision.transforms as transforms
-
 from torch.utils.data import DataLoader, random_split
 from typing import Optional
 
@@ -11,7 +9,8 @@ from typing import Optional
 def dataloader(name: str,
                batch_size: int,
                shuffle: bool=True,
-               val_split: Optional[float] = None):
+               val_split: Optional[float] = None,
+               augment: bool=False):
   """
   Dataloader for the specified dataset.
 
@@ -25,6 +24,8 @@ def dataloader(name: str,
     Whether to shuffle the dataset, defaults to True.
   val_split: float
     Fraction of the trainig set use as validation. Defaults to None.
+  augment: bool
+    Whether to apply data augmentation techniques. Defaults to False.
 
   Returns
   -------
@@ -38,6 +39,10 @@ def dataloader(name: str,
 
   # Image transformation
   transform = transforms.Compose([
+      transforms.RandomCrop(32, padding=4) if name in ['CIFAR10', 'CIFAR100'] and augment else
+      transforms.Resize(28) if name == 'MNIST' else transforms.Resize(32),
+      transforms.RandomHorizontalFlip() if name in ['CIFAR10', 'CIFAR100'] and augment else
+      transforms.Lambda(lambda x: x),
       transforms.ToTensor(),
       transforms.Normalize((0.5,), (0.5,)) if name == 'MNIST' else 
       transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
