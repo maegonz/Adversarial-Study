@@ -63,12 +63,12 @@ def training(model: nn.Module,
             loop.set_postfix(loss=loss.item())
 
         epoch_loss = running_loss / len(train_loader.dataset)
-        print(f"Epoch {epoch+1}/{epochs} - Train Loss: {epoch_loss:.4f}")
 
         if val_loader is not None:
             val_loss, val_accuracy  = evaluating(model, val_loader, criterion, device)
-            print(f"Val Loss:   {val_loss:.4f} | Val Accuracy:   {val_accuracy:.4f}")
-
+            epoch_tqdm.set_postfix(train_loss=epoch_loss, val_loss=val_loss, val_accuracy=val_accuracy)
+        else:
+            epoch_tqdm.set_postfix(train_loss=epoch_loss)
 
 def evaluating(model: nn.Module, 
                data_loader: DataLoader,
