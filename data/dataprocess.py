@@ -61,7 +61,7 @@ def preparation(img):
         The transposed and colored image.
     """
     img = img * 0.5 + 0.5
-    if isinstance(img, torch.tensor):
+    if isinstance(img, torch.Tensor):
         img = img.permute(1, 2, 0)
     else:   
         img = np.transpose(img, (1, 2, 0))
