@@ -15,7 +15,7 @@ def training(model: nn.Module,
             val_loader: DataLoader=None,
             use_amp: bool=True):
     """
-    Train a PyTorch model with optional Automatic Mixed Precision (AMP).
+    Train a PyTorch model with optional Automatic Mixed Precision.
 
     Parameters
     ----------
@@ -35,7 +35,7 @@ def training(model: nn.Module,
         DataLoader providing the validation dataset.
         If None, no validation is performed. Default is None.
     use_amp : bool, optional
-        Whether to use Automatic Mixed Precision (AMP).
+        Whether to use AMP.
         AMP is enabled only when using a CUDA device. Default is True.
 
     Returns
@@ -53,7 +53,8 @@ def training(model: nn.Module,
     """
 
     model.to(device)
-    scaler = GradScaler(enabled=(use_amp and device.type == "cuda"))
+    # scaler = GradScaler(enabled=(use_amp and device.type == "cuda"))
+    scaler = GradScaler(enabled=use_amp and device.type == "cuda")
 
     train_losses, train_accuracies = [], []
     val_losses, val_accuracies = [], []
@@ -71,7 +72,7 @@ def training(model: nn.Module,
             inputs, labels = inputs.to(device), labels.to(device)
             optimizer.zero_grad()
 
-            with autocast(enabled=(use_amp and device.type == "cuda")):
+            with autocast(device_type=device.type, enabled=use_amp):
                 outputs = model(inputs)
                 loss = criterion(outputs, labels)
 
@@ -147,7 +148,7 @@ def evaluating(model: nn.Module,
         for inputs, labels in data_loader:
             inputs, labels = inputs.to(device), labels.to(device)
 
-            with autocast(enabled=(use_amp and device.type == "cuda")):
+            with autocast(device_type=device.type, enabled=use_amp):
                 outputs = model(inputs)
                 loss = criterion(outputs, labels)
 
